@@ -1,0 +1,14 @@
+nopj-ai:
+  admin:
+    settings:
+      ai_user_label: 'AI User'
+      ai_user_placeholder: 'Search for a user to designate as AI...'
+      api_endpoint_label: 'API Endpoint'
+      api_key_label: 'API Key'
+      model_label: 'Model'
+      system_prompt_label: 'System Prompt'
+      max_tokens_label: 'Max Tokens'
+      temperature_label: 'Temperature'
+      context_posts_count_label: 'Context Posts Count'
+    permissions:
+      use_ai: 'Use AI Assistant'

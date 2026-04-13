@@ -1,0 +1,14 @@
+nopj-ai:
+  admin:
+    settings:
+      ai_user_label: 'AI 用户'
+      ai_user_placeholder: '搜索指定为 AI 的用户...'
+      api_endpoint_label: 'API 端点'
+      api_key_label: 'API 密钥'
+      model_label: '模型'
+      system_prompt_label: '系统提示词'
+      max_tokens_label: '最大 Token 数'
+      temperature_label: '温度参数'
+      context_posts_count_label: '上下文帖子数量'
+    permissions:
+      use_ai: '使用 AI 助手'

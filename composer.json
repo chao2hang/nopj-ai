@@ -1,0 +1,27 @@
+{
+    "name": "nopj/ai",
+    "description": "AI assistant integration for Flarum with multi-turn conversation support.",
+    "type": "flarum-extension",
+    "license": "MIT",
+    "require": {
+        "flarum/core": "^1.8",
+        "flarum/mentions": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nopj\\Ai\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Nopj AI",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-robot",
+                "backgroundColor": "#6366f1",
+                "color": "#ffffff"
+            }
+        }
+    }
+}
