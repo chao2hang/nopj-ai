@@ -177,7 +177,7 @@ class AiReplyOrchestrator
             if (!$replyContent) {
                 $this->replySupport->persistRevision(
                     $typingPost,
-                    '<div class="AiErrorMessage">AI failed to generate a response. Please try again later.</div>',
+                    '❌ 抱歉，大脑短路了无法回复～',
                     $aiUser
                 );
                 return;
@@ -206,7 +206,7 @@ class AiReplyOrchestrator
                 try {
                     $this->replySupport->persistRevision(
                         $typingPost,
-                        '<div class="AiErrorMessage">AI error: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</div>',
+                        '❌ 抱歉，大脑短路了无法回复～',
                         $aiUser
                     );
                 } catch (\Throwable $inner) {
