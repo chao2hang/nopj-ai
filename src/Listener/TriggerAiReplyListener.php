@@ -2,55 +2,53 @@
 
 namespace Nopj\Ai\Listener;
 
+use Flarum\Post\CommentPost;
 use Flarum\Post\Event\Posted;
-use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\User\User;
-use Illuminate\Contracts\Events\Dispatcher;
-use Nopj\Ai\Job\ProcessAiReplyJob;
+use Nopj\Ai\Service\AiAsyncDispatcher;
+use Nopj\Ai\Service\AiReplyOrchestrator;
+use Psr\Log\LoggerInterface;
 
 class TriggerAiReplyListener
 {
-    protected $settings;
-    protected $events;
+    protected $asyncDispatcher;
+    protected $orchestrator;
+    protected $logger;
 
-    public function __construct(SettingsRepositoryInterface $settings, Dispatcher $events)
+    public function __construct(AiAsyncDispatcher $asyncDispatcher, AiReplyOrchestrator $orchestrator, LoggerInterface $logger)
     {
-        $this->settings = $settings;
-        $this->events = $events;
+        $this->asyncDispatcher = $asyncDispatcher;
+        $this->orchestrator = $orchestrator;
+        $this->logger = $logger;
     }
 
-    public function handle(Posted $event)
+    public function handle(Posted $event): void
     {
-        $aiUserId = $this->settings->get('nopj-ai.ai_user_id');
-
-        if (empty($aiUserId)) {
+        if (!$event->post instanceof CommentPost) {
             return;
         }
 
-        $aiUser = User::find($aiUserId);
+        $aiUser = $this->orchestrator->resolveConfiguredAiUser();
         if (!$aiUser) {
             return;
         }
 
-        $content = $event->post->content;
-
-        $mentionPattern = '/<mention[^>]*username="([^"]*)"[^>]*><\/mention>/';
-        preg_match_all($mentionPattern, $content, $matches);
-
-        if (empty($matches[1])) {
+        if (!$this->orchestrator->shouldReplyToPost($event->post, $aiUser)) {
             return;
         }
 
-        $mentionedUsernames = $matches[1];
-
-        if (in_array($aiUser->username, $mentionedUsernames)) {
-            $this->events->dispatch(
-                new ProcessAiReplyJob(
-                    $event->post->id,
-                    (int) $aiUserId,
-                    $event->post->discussion_id
-                )
-            );
+        $typingPost = $this->orchestrator->createTypingPostForReply($event->post->discussion_id, $aiUser->id);
+        if (!$typingPost) {
+            $this->logger->error("[nopj-ai] Failed to create typing post for trigger post #{$event->post->id}");
+            return;
         }
+
+        $this->asyncDispatcher->dispatch(
+            $event->post->id,
+            $event->post->discussion_id,
+            $aiUser->id,
+            $typingPost->id
+        );
+
+        $this->logger->info("[nopj-ai] Accepted AI reply trigger for post #{$event->post->id} with typing post #{$typingPost->id}");
     }
 }

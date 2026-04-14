@@ -1,4 +1,30 @@
-// AI reply styling - can be extended later
-.Post--by-ai {
-  border-left: 3px solid #6366f1;
+.AiTypingIndicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #888;
+
+    img {
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+}
+
+.AiErrorMessage {
+    color: #e74c3c;
+    background: #fdeaea;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-left: 3px solid #e74c3c;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
 }

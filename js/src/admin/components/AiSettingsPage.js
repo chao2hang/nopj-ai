@@ -1,6 +1,5 @@
 import app from 'flarum/admin/app';
 import ExtensionPage from 'flarum/admin/components/ExtensionPage';
-import UserSelector from 'flarum/admin/components/UserSelector';
 import Button from 'flarum/common/components/Button';
 import Stream from 'flarum/common/utils/Stream';
 import extractText from 'flarum/common/utils/extractText';
@@ -17,6 +16,7 @@ export default class AiSettingsPage extends ExtensionPage {
     this.maxTokens = Stream(app.data.settings['nopj-ai.max_tokens'] || '1024');
     this.temperature = Stream(app.data.settings['nopj-ai.temperature'] || '0.7');
     this.contextPostsCount = Stream(app.data.settings['nopj-ai.context_posts_count'] || '5');
+    this.streaming = Stream(app.data.settings['nopj-ai.streaming'] === true || app.data.settings['nopj-ai.streaming'] === '1');
 
     this.loading = false;
   }
@@ -28,9 +28,10 @@ export default class AiSettingsPage extends ExtensionPage {
           m('.Form',
             m('.Form-group',
               m('label', extractText(app.translator.trans('nopj-ai.admin.settings.ai_user_label'))),
-              m(UserSelector, {
+              m('input.FormControl', {
+                type: 'text',
                 value: this.aiUserId(),
-                onchange: (user) => this.aiUserId(user ? user.id() : ''),
+                oninput: (e) => this.aiUserId(e.target.value),
                 placeholder: extractText(app.translator.trans('nopj-ai.admin.settings.ai_user_placeholder')),
               })
             ),
@@ -101,13 +102,23 @@ export default class AiSettingsPage extends ExtensionPage {
               })
             ),
             m('.Form-group',
-              Button.component(
-                {
-                  type: 'submit',
-                  className: 'Button Button--primary',
-                  loading: this.loading,
-                  onclick: this.onsubmit.bind(this),
-                },
+              m('label', { className: 'checkbox' },
+                m('input', {
+                  type: 'checkbox',
+                  checked: this.streaming(),
+                  onchange: (e) => this.streaming(e.target.checked),
+                }),
+                extractText(app.translator.trans('nopj-ai.admin.settings.streaming_label'))
+              ),
+              m('.helpText', extractText(app.translator.trans('nopj-ai.admin.settings.streaming_help')))
+            ),
+            m('.Form-group',
+              m(Button, {
+                type: 'submit',
+                className: 'Button Button--primary',
+                loading: this.loading,
+                onclick: this.onsubmit.bind(this),
+              },
                 app.translator.trans('core.admin.settings.submit_changes_button')
               )
             )
@@ -135,6 +146,7 @@ export default class AiSettingsPage extends ExtensionPage {
             max_tokens: this.maxTokens(),
             temperature: this.temperature(),
             context_posts_count: this.contextPostsCount(),
+            streaming: this.streaming() ? '1' : '0',
           },
         },
       });

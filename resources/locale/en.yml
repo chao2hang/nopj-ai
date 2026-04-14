@@ -10,5 +10,7 @@ nopj-ai:
       max_tokens_label: 'Max Tokens'
       temperature_label: 'Temperature'
       context_posts_count_label: 'Context Posts Count'
+      streaming_label: 'Enable Streaming'
+      streaming_help: 'When enabled, the API will use streaming response mode. Required for APIs that return SSE (Server-Sent Events) format.'
     permissions:
       use_ai: 'Use AI Assistant'

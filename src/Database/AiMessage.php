@@ -3,6 +3,7 @@
 namespace Nopj\Ai\Database;
 
 use Flarum\Database\AbstractModel;
+use Carbon\Carbon;
 use Flarum\Post\Post;
 
 class AiMessage extends AbstractModel
@@ -35,7 +36,7 @@ class AiMessage extends AbstractModel
         $message->role = $role;
         $message->content = $content;
         $message->post_id = $postId;
-        $message->created_at = now();
+        $message->created_at = Carbon::now();
         $message->save();
 
         return $message;

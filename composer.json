@@ -1,12 +1,31 @@
 {
     "name": "nopj/ai",
     "description": "AI assistant integration for Flarum with multi-turn conversation support.",
+    "keywords": [
+        "flarum",
+        "flarum-extension",
+        "ai",
+        "assistant",
+        "llm",
+        "mentions",
+        "async"
+    ],
+    "homepage": "https://github.com/chao2hang/nopj-ai",
     "type": "flarum-extension",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "chao2hang"
+        }
+    ],
     "require": {
         "flarum/core": "^1.8",
         "flarum/mentions": "*",
         "ext-json": "*"
+    },
+    "support": {
+        "issues": "https://github.com/chao2hang/nopj-ai/issues",
+        "source": "https://github.com/chao2hang/nopj-ai"
     },
     "autoload": {
         "psr-4": {

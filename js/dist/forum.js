@@ -1,5 +1,2 @@
-(function () {
-  app.initializers.add('nopj-ai', function () {
-    // Forum frontend - can be extended for AI reply status indicators
-  });
-})();
+(()=>{var e={n:o=>{var r=o&&o.__esModule?()=>o.default:()=>o;return e.d(r,{a:r}),r},d:(o,r)=>{for(var t in r)e.o(r,t)&&!e.o(o,t)&&Object.defineProperty(o,t,{enumerable:!0,get:r[t]})},o:(e,o)=>Object.prototype.hasOwnProperty.call(e,o)};(()=>{"use strict";const o=flarum.core.compat["forum/app"];e.n(o)().initializers.add("nopj-ai",function(){console.log("nopj-ai forum initialized")})})(),module.exports={}})();
+//# sourceMappingURL=forum.js.map

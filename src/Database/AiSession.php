@@ -3,6 +3,7 @@
 namespace Nopj\Ai\Database;
 
 use Flarum\Database\AbstractModel;
+use Carbon\Carbon;
 use Flarum\Discussion\Discussion;
 use Flarum\User\User;
 

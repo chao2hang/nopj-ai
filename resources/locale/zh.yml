@@ -10,5 +10,7 @@ nopj-ai:
       max_tokens_label: '最大 Token 数'
       temperature_label: '温度参数'
       context_posts_count_label: '上下文帖子数量'
+      streaming_label: '启用流式响应'
+      streaming_help: '启用后，API 将使用流式响应模式。适用于返回 SSE（Server-Sent Events）格式的 API。'
     permissions:
       use_ai: '使用 AI 助手'
